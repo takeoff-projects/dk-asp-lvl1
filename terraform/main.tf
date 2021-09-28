@@ -4,16 +4,16 @@ provider "google" {
     zone = var.zone
 }
 locals {
-  service_name = "petsapp"
+  service_name = "go-pets"
 }
-resource "google_cloud_run_service" "petsapp" {
+resource "google_cloud_run_service" "default" {
   name     = local.service_name
   location = var.region
 
   template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/roi-takeoff-user54/petsapp:v1.0"
+        image = "us-docker.pkg.dev/cloudrun/roi-takeoff-user54/petsapp"
       }
     }
   }
@@ -69,6 +69,10 @@ resource "google_datastore_index" "default" {
     }
     properties {
       name = "petname"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "Name"
       direction = "ASCENDING"
     }
 }
