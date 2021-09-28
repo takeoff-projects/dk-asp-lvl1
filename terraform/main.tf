@@ -49,7 +49,7 @@ resource "google_cloud_run_service" "default" {
   template {
     spec {
       containers {
-        image = "gcr.io/roi-takeoff-user54/petsapp"
+        image = "gcr.io/roi-takeoff-user54/petsapp:latest"
         ports {
           container_port = var.server_port
         }
