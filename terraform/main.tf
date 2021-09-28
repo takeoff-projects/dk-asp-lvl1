@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "petsapp" {
   template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/roi-takeoff-user54/petsapp"
+        image = "us-docker.pkg.dev/cloudrun/roi-takeoff-user54/petsapp:v1.0"
       }
     }
   }
@@ -39,4 +39,36 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service     = google_cloud_run_service.default.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
+}
+
+resource "google_datastore_index" "default" {
+    kind = "Pet"
+    properties {
+      name = "added"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "capption"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "email"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "image"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "likes"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "owner"
+      direction = "ASCENDING"
+    }
+    properties {
+      name = "petname"
+      direction = "ASCENDING"
+    }
 }
