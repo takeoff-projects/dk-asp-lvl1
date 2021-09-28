@@ -83,38 +83,38 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   policy_data = data.google_iam_policy.noauth.policy_data
 }
 
-resource "google_datastore_index" "default" {
-  kind = "Pet"
-  properties {
-    name      = "added"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "capption"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "email"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "image"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "likes"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "owner"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "petname"
-    direction = "ASCENDING"
-  }
-  properties {
-    name      = "Name"
-    direction = "ASCENDING"
-  }
-}
+# resource "google_datastore_index" "default" {
+#   kind = "Pet"
+#   properties {
+#     name      = "added"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "capption"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "email"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "image"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "likes"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "owner"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "petname"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "Name"
+#     direction = "ASCENDING"
+#   }
+# }
