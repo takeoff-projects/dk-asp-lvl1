@@ -24,6 +24,13 @@ resource "google_cloud_run_service" "default" {
   }
 }
 
+resource "google_project_service" "apigateaway.googleapis.com" {
+    provider = google
+    project = var.gcp_project_id
+    service = "apigateway.googleapis.com"
+
+    disable_on_destroy = false
+}
 data "google_iam_policy" "noauth" {
   binding {
     role = "roles/run.invoker"
