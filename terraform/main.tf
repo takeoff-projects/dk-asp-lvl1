@@ -6,6 +6,42 @@ provider "google" {
 locals {
   service_name = "go-pets"
 }
+
+resource "google_project_service" "run" {
+  provider = google
+  project  = var.gcp_project_id  
+  service = "run.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "iam" {
+  provider = google
+  project  = var.gcp_project_id  
+  service = "iam.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "cloudbuild" {
+  provider = google
+  project  = var.gcp_project_id  
+  service = "cloudbuild.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "datastore" {
+  provider = google
+  project  = var.gcp_project_id       
+  service = "datastore.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "enable_apigateway_service" {
+  provider = google
+  project  = var.gcp_project_id
+  service  = "apigateway.googleapis.com"
+
+  disable_on_destroy = false
+}
 resource "google_cloud_run_service" "default" {
   name     = local.service_name
   location = var.region
@@ -22,34 +58,6 @@ resource "google_cloud_run_service" "default" {
     percent         = 100
     latest_revision = true
   }
-}
-
-resource "google_project_service" "run" {
-  service = "run.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "iam" {
-  service = "iam.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "cloudbuild" {
-  service = "cloudbuild.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "datastore" {
-  service = "datastore.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "enable_apigateway_service" {
-  provider = google
-  project  = var.gcp_project_id
-  service  = "apigateway.googleapis.com"
-
-  disable_on_destroy = false
 }
 data "google_iam_policy" "noauth" {
   binding {
