@@ -24,6 +24,26 @@ resource "google_cloud_run_service" "default" {
   }
 }
 
+resource "google_project_service" "run" {
+  service = "run.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "iam" {
+  service = "iam.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "cloudbuild" {
+  service = "cloudbuild.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "datastore" {
+  service = "datastore.googleapis.com"
+  disable_on_destroy = false
+}
+
 resource "google_project_service" "enable_apigateway_service" {
   provider = google
   project  = var.gcp_project_id
