@@ -49,7 +49,14 @@ resource "google_cloud_run_service" "default" {
   template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/roi-takeoff-user54/petsapp"
+        image = "gcr.io/roi-takeoff-user54/petsapp"
+        ports {
+          container_port = var.server_port
+        }
+        env {
+          name  = "GOOGLE_CLOUD_PROJECT"
+          value = "roi-takeoff-user54"
+        }
       }
     }
   }
