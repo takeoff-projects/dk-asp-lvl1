@@ -1,4 +1,4 @@
-# dk-asp-lvl1 
+# go-pets
 Applied Skills Project (Level1)
 
 This repository mostly a replica of [go-pets](https://github.com/drehnstrom/go-pets)
