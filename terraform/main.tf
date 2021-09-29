@@ -57,9 +57,8 @@ resource "google_project_service" "enable_apigateway_service" {
   disable_on_destroy = false
 }
 
-module "cloud-datastore" {
+module "datastore" {
   source  = "terraform-google-modules/cloud-datastore/google"
-  version = "1.0.0"
 
   # insert the 3 required variables here
   credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
