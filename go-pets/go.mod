@@ -1,4 +1,4 @@
-module drehnstrom.com/go-pets
+module kdlqa.com/go-pets
 
 go 1.17
 
