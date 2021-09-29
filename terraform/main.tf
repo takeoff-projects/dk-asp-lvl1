@@ -1,8 +1,22 @@
+terraform {
+  required_version = ">= 0.14"
+
+  required_providers {
+    google = ">= 3.8.6"
+    # google-beta = ">= 3.63.0"
+  }
+}
 provider "google" {
   project = var.gcp_project_id
   region  = var.region
   zone    = var.zone
 }
+
+# provider "google-beta" {
+#   project = var.gcp_project_id
+#   region  = var.region
+#   zone    = var.zone
+# }
 locals {
   service_name = "go-pets"
 }
@@ -39,9 +53,49 @@ resource "google_project_service" "enable_apigateway_service" {
   provider = google
   project  = var.gcp_project_id
   service  = "apigateway.googleapis.com"
-
   disable_on_destroy = false
 }
+
+module "cloud-datastore" {
+  source  = "terraform-google-modules/cloud-datastore/google"
+  version = "1.0.0"
+
+  # insert the 3 required variables here
+  credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
+  project = var.gcp_project_id
+  indexes = "${file("index.yaml")}"
+}
+# resource "google_datastore_index" "default" {
+#   kind = "Pet"
+#   properties {
+#     name      = "added"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "capption"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "email"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "image"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "likes"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "owner"
+#     direction = "ASCENDING"
+#   }
+#   properties {
+#     name      = "petname"
+#     direction = "ASCENDING"
+#   }
+# }
 resource "google_cloud_run_service" "default" {
   name     = local.service_name
   location = var.region
@@ -82,39 +136,3 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
-
-# resource "google_datastore_index" "default" {
-#   kind = "Pet"
-#   properties {
-#     name      = "added"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "capption"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "email"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "image"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "likes"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "owner"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "petname"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "Name"
-#     direction = "ASCENDING"
-#   }
-# }
