@@ -19,6 +19,7 @@ provider "google" {
 # }
 locals {
   service_name = "go-pets"
+  index_path_file    = "${path.module}/yaml/index.yaml"
 }
 
 resource "google_project_service" "run" {
@@ -63,39 +64,8 @@ module "cloud-datastore" {
   # insert the 3 required variables here
   credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
   project = var.gcp_project_id
-  indexes = "${file("index.yaml")}"
-}
-# resource "google_datastore_index" "default" {
-#   kind = "Pet"
-#   properties {
-#     name      = "added"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "capption"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "email"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "image"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "likes"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "owner"
-#     direction = "ASCENDING"
-#   }
-#   properties {
-#     name      = "petname"
-#     direction = "ASCENDING"
-#   }
-# }
+  indexes = file(local.index_path_file)
+  }
 resource "google_cloud_run_service" "default" {
   name     = local.service_name
   location = var.region
