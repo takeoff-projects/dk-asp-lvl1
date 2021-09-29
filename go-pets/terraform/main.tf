@@ -8,9 +8,9 @@ terraform {
 }
 provider "google" {
   project = var.gcp_project_id
-#   credentials = file("../roi-takeoff-user54-c8acaf8c421a.json")
-  region  = var.region
-  zone    = var.zone
+  #   credentials = file("../roi-takeoff-user54-c8acaf8c421a.json")
+  region = var.region
+  zone   = var.zone
 }
 
 # provider "google-beta" {
@@ -18,54 +18,19 @@ provider "google" {
 #   region  = var.region
 #   zone    = var.zone
 # }
+
 locals {
-  service_name = "go-pets"
-  index_path_file    = "${path.module}/yaml/index.yaml"
+  service_name    = "go-pets"
+  index_path_file = "${path.module}/yaml/index.yaml"
 }
 
-resource "google_project_service" "run" {
-  provider = google
-  project  = var.gcp_project_id  
-  service = "run.googleapis.com"
+resource "google_project_service" "gcp_services" {
+  provider           = google
+  for_each           = toset(var.google_apis)
+  project            = var.gcp_project_id
+  service            = each.key
   disable_on_destroy = false
 }
-
-resource "google_project_service" "iam" {
-  provider = google
-  project  = var.gcp_project_id  
-  service = "iam.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "cloudbuild" {
-  provider = google
-  project  = var.gcp_project_id  
-  service = "cloudbuild.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "datastore" {
-  provider = google
-  project  = var.gcp_project_id       
-  service = "datastore.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "enable_apigateway_service" {
-  provider = google
-  project  = var.gcp_project_id
-  service  = "apigateway.googleapis.com"
-  disable_on_destroy = false
-}
-
-# module "datastore" {
-#   source  = "terraform-google-modules/cloud-datastore/google"
-
-#   # insert the 3 required variables here
-#   credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
-#   project = var.gcp_project_id
-#   indexes = file(local.index_path_file)
-#   }
 resource "google_cloud_run_service" "petsapp" {
   name     = local.service_name
   location = var.region
@@ -73,7 +38,7 @@ resource "google_cloud_run_service" "petsapp" {
   template {
     spec {
       containers {
-        image = "gcr.io/roi-takeoff-user54/petsapp:latest"
+        image = "gcr.io/${var.gcp_project_id}/petsapp:latest"
         ports {
           container_port = var.server_port
         }

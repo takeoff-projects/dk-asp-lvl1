@@ -2,8 +2,6 @@ variable "gcp_project_id" {
   description = "Google cloud platform project name"
 }
 
-#variable "credentials_file" {}
-
 variable "region" {
   description = "GCP region"
 }
@@ -18,4 +16,20 @@ variable "server_port" {
 
 variable "db_name" {
   description = "Datastore DB name"
+}
+
+variable "google_apis" {
+  description = "List of enabled apis needed for application"
+  type        = list(string)
+  default = [
+    "cloudapis.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "run.googleapis.com",
+    "servicemanagement.googleapis.com",
+    "servicecontrol.googleapis.com",
+    "apigateway.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "datastore.googleapis.com",
+    "iam.googleapis.com"
+  ]
 }
