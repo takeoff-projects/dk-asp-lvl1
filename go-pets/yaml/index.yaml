@@ -1,19 +1,19 @@
 indexes:
 - kind: Pet
   properties:
-  - name: added
+  - name: Added
     direction: asc
-  - name: caption
+  - name: Caption
     direction: asc
-  - name: email
+  - name: Email
     direction: asc
-  - name: image
+  - name: Image
     direction: asc
-  - name: likes
+  - name: Likes
     direction: asc
-  - name: owner
+  - name: Owner
     direction: asc
-  - name: petname
+  - name: Petname
     direction: asc
   - name: Name
     direction: asc
