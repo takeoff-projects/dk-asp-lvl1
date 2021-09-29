@@ -8,6 +8,7 @@ terraform {
 }
 provider "google" {
   project = var.gcp_project_id
+  credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
   region  = var.region
   zone    = var.zone
 }
@@ -57,15 +58,15 @@ resource "google_project_service" "enable_apigateway_service" {
   disable_on_destroy = false
 }
 
-module "datastore" {
-  source  = "terraform-google-modules/cloud-datastore/google"
+# module "datastore" {
+#   source  = "terraform-google-modules/cloud-datastore/google"
 
-  # insert the 3 required variables here
-  credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
-  project = var.gcp_project_id
-  indexes = file(local.index_path_file)
-  }
-resource "google_cloud_run_service" "default" {
+#   # insert the 3 required variables here
+#   credentials = "${file("../roi-takeoff-user54-c8acaf8c421a.json")}"
+#   project = var.gcp_project_id
+#   indexes = file(local.index_path_file)
+#   }
+resource "google_cloud_run_service" "petsapp" {
   name     = local.service_name
   location = var.region
 
@@ -99,9 +100,13 @@ data "google_iam_policy" "noauth" {
 }
 
 resource "google_cloud_run_service_iam_policy" "noauth" {
-  location = google_cloud_run_service.default.location
-  project  = google_cloud_run_service.default.project
-  service  = google_cloud_run_service.default.name
+  location = google_cloud_run_service.petsapp.location
+  project  = google_cloud_run_service.petsapp.project
+  service  = google_cloud_run_service.petsapp.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
+}
+
+output "service_url" {
+  value = google_cloud_run_service.petsapp.status[0].url
 }
