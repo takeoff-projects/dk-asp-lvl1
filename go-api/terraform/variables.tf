@@ -14,9 +14,9 @@ variable "server_port" {
   description = "Server port for HTTP requests"
 }
 
-variable "db_name" {
-  description = "Datastore DB name"
-}
+# variable "db_name" {
+#   description = "Datastore DB name"
+# }
 
 variable "google_apis" {
   description = "List of enabled apis needed for application"
