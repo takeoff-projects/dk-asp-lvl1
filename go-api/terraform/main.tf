@@ -8,13 +8,11 @@ terraform {
 }
 provider "google" {
   project = var.gcp_project_id
-  credentials = file("~/roi-takeoff-user54-c8acaf8c421a.json")
   region = var.region
   zone   = var.zone
 }
 
 provider "google-beta" {
-  credentials = file("~/roi-takeoff-user54-c8acaf8c421a.json")
   project = var.gcp_project_id
   region  = var.region
   zone    = var.zone
